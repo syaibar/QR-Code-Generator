@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #333;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+    .input-group {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.2em;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .qr-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .qr-options input {
+      width: 45%;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .qr-code {
+      margin-top: 20px;
+      display: none;
+    }
+    img {
+      width: 100%;
+      max-width: 300px;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Generator</h1>
+    <div class="input-group">
+      <input type="text" id="qr-input" placeholder="Masukkan URL atau Teks" />
+    </div>
+
+    <div class="qr-options">
+      <input type="number" id="qr-size" placeholder="Ukuran (min 100)" value="200" min="100" />
+    </div>
+
+    <button onclick="generateQRCode()">Buat QR Code</button>
+
+    <div class="qr-code" id="qr-code">
+      <h2>QR Code Anda</h2>
+      <img id="qr-img" src="" alt="QR Code">
+    </div>
+
+    <div class="footer">
+      <p>Built with ❤️ by <a href="https://github.com/your-username" target="_blank">Your Name</a></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    function generateQRCode() {
+      const inputText = document.getElementById("qr-input").value;
+      const size = parseInt(document.getElementById("qr-size").value);
+
+      if (inputText === "") {
+        alert("Masukkan teks atau URL untuk QR Code");
+        return;
+      }
+
+      if (size < 100) {
+        alert("Ukuran QR Code minimal 100px");
+        return;
+      }
+
+      // Menghasilkan QR Code
+      QRCode.toDataURL(inputText, { width: size, height: size }, function (err, url) {
+        if (err) {
+          alert("Terjadi kesalahan dalam membuat QR Code");
+          return;
+        }
+        // Menampilkan QR Code di halaman
+        document.getElementById("qr-img").src = url;
+        document.getElementById("qr-code").style.display = "block";
+      });
+    }
+  </script>
+</body>
+</html>
